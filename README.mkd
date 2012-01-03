@@ -3,7 +3,7 @@ PHP HTTP
 
 The [documentation] can be found in the [wiki].
 
-[documentation]: https://github.com/jhermsmeier/php-http/wiki
+[documentation]: https://github.com/jhermsmeier/php-http/wiki/Documentation
 [wiki]: https://github.com/jhermsmeier/php-http/wiki
 
 ### Dependencies
