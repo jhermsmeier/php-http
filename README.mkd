@@ -1,0 +1,35 @@
+PHP HTTP
+========
+
+The [documentation] can be found in the [wiki].
+
+[documentation]: https://github.com/jhermsmeier/php-http/wiki
+[wiki]: https://github.com/jhermsmeier/php-http/wiki
+
+### Dependencies
+
+- PHP 5.3+ with cURL
+
+### Usage
+
+```php
+<?php
+  
+  // available options (with their default values)
+  // for further documentation see <https://github.com/jhermsmeier/php-http/wiki>
+  $options = array(
+    'method'     => 'GET',
+    'header'     => array(),
+    'body'       => NULL,
+    'timeout'    => 3,
+    'redirect'   => 5,
+    'useragent'  => 'php/x.x.x',
+    'ssl_verify' => TRUE,
+    'file'       => NULL
+  );
+  
+  // make a request
+  $response = lib\http::request( 'example.com', $options );
+  
+?>
+```
