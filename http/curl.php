@@ -1,6 +1,6 @@
 <?php namespace lib\http {
   
-  use \lib;
+  use \lib\http;
   
   /**
    * HTTP cURL transport layer
@@ -69,14 +69,15 @@
     public static function request( $url, $opt = array() ) {
       // FOLLOW_LOCATION DOES NOT work if safe mode or open basedir
       // are enabled (this check will be obsolete as of PHP 5.4)
-      if( !ini_get( 'safe_mode' ) && !ini_get( 'open_basedir' ) )
+      if( ini_get( 'safe_mode' ) && ini_get( 'open_basedir' ) )
         $opt['redirect'] = 0;
       // I want uppercase request methods
       $opt['method'] = strtoupper( $opt['method'] );
       // cURL WILL NOT handle floats
       $opt['timeout'] = ceil( $opt['timeout'] );
       // build query string from body data
-      $opt['body'] = !is_array( $opt['body'] ) ?: lib\http::buildQuery( $opt['body'] );
+      if( !empty( $opt['body'] ) )
+        $opt['body'] = !is_array( $opt['body'] ) ?: http::buildQuery( $opt['body'] );
       // init cURL handle
       $ch = curl_init();
       // set post field for POST and PUT requests
@@ -92,10 +93,10 @@
         CURLOPT_CRLF            => TRUE,
         CURLOPT_CUSTOMREQUEST   => $opt['method'],
         CURLOPT_HTTPHEADER      => self::buildHeader( $opt['header'] ),
-        CURLOPT_NOBODY          => $opt['method'] === 'HEAD' ? TRUE : FALSE,
+        CURLOPT_NOBODY          => $opt['method'] === 'HEAD',
         CURLOPT_TIMEOUT         => $opt['timeout'],
         CURLOPT_CONNECTTIMEOUT  => $opt['timeout'],
-        CURLOPT_FOLLOWLOCATION  => $opt['redirect'] ? TRUE : FALSE,
+        CURLOPT_FOLLOWLOCATION  => !!$opt['redirect'],
         CURLOPT_MAXREDIRS       => $opt['redirect'],
         CURLOPT_SSL_VERIFYHOST  => $opt['ssl_verify'] ? 2 : FALSE,
         CURLOPT_SSL_VERIFYPEER  => $opt['ssl_verify'],
@@ -116,7 +117,7 @@
       curl_close( $ch );
       unset( $ch );
       // parse header and flush self::$header
-      $header = lib\http::parseHeader( self::$headers );
+      $header = http::parseHeader( self::$headers );
       self::$headers = '';
       // return response
       return array(
@@ -126,6 +127,6 @@
       );
     }
     
-  }  
+  }
   
 } ?>
