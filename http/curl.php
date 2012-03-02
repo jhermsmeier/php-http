@@ -53,7 +53,7 @@
      * @return type
      */
     private static function buildHeader( $input ) {
-      $header = array();
+      $header = [];
       foreach( $input as $key => $value )
         $header[] = "{$key}: {$value}";
       return $header;
@@ -66,7 +66,7 @@
      * @param array $opt 
      * @return mixed
      */
-    public static function request( $url, $opt = array() ) {
+    public static function request( $url, $opt = [] ) {
       // FOLLOW_LOCATION DOES NOT work if safe mode or open basedir
       // are enabled (this check will be obsolete as of PHP 5.4)
       if( ini_get( 'safe_mode' ) && ini_get( 'open_basedir' ) )
@@ -86,9 +86,9 @@
       elseif( !empty( $opt['body'] ) )
         $url.= '?'.$opt['body'];
       // set/merge defaults and opts
-      curl_setopt_array( $ch, array(
+      curl_setopt_array( $ch, [
         CURLOPT_HEADER          => FALSE,
-        CURLOPT_HEADERFUNCTION  => array( 'self', 'streamHeaders' ),
+        CURLOPT_HEADERFUNCTION  => [ 'self', 'streamHeaders' ],
         CURLOPT_RETURNTRANSFER  => TRUE,
         CURLOPT_CRLF            => TRUE,
         CURLOPT_CUSTOMREQUEST   => $opt['method'],
@@ -102,7 +102,7 @@
         CURLOPT_SSL_VERIFYPEER  => $opt['ssl_verify'],
         CURLOPT_USERAGENT       => $opt['useragent'],
         CURLOPT_URL             => $url
-      ));
+      ]);
       // stream transfer to file?
       if( !empty( $opt['file'] ) && file_exists( dirname( $opt['file'] ) ) ) {
         if( $stream = fopen( $opt['file'], 'w+' ) )
@@ -120,11 +120,11 @@
       $header = http::parseHeader( self::$headers );
       self::$headers = '';
       // return response
-      return array(
+      return [
         'status'  => $info['http_code'],
         'headers' => $header,
         'body'    => $data
-      );
+      ];
     }
     
   }

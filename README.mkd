@@ -8,7 +8,7 @@ The [documentation] can be found in the [wiki].
 
 ### Dependencies
 
-- PHP 5.3+ with cURL
+- PHP 5.4+ with cURL
 
 ### Usage
 
@@ -19,7 +19,7 @@ The [documentation] can be found in the [wiki].
   // for further documentation see <https://github.com/jhermsmeier/php-http/wiki>
   $options = array(
     'method'     => 'GET',
-    'header'     => array(),
+    'header'     => [],
     'body'       => NULL,
     'timeout'    => 3,
     'redirect'   => 5,

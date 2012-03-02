@@ -23,7 +23,7 @@
   class http {
     
     // TODO: add socket and stream transports
-    private static $transports = array( 'curl' );
+    private static $transports = [ 'curl' ];
     
     /**
      * Redirects to the given url.
@@ -53,21 +53,21 @@
      * @param array $opt 
      * @return mixed
      */
-    public static function request( $url, $opt = array() ) {
+    public static function request( $url, $opt = [] ) {
       // get or construct default user agent
       $useragent = ( function_exists( 'ini_get' ) ) ?
         ini_get( 'user_agent' ) : 'php/'.PHP_VERSION;
       // merge options
-      $opt = $opt + array(
+      $opt = $opt + [
         'method'     => 'GET',
-        'header'     => array(),
+        'header'     => [],
         'body'       => NULL,
         'timeout'    => 3,
         'redirect'   => 5,
         'useragent'  => $useragent,
         'ssl_verify' => TRUE,
         'file'       => NULL
-      );
+      ];
       // check for available transports
       foreach( self::$transports as $transport ) {
         $transport = __CLASS__."\\{$transport}";
@@ -87,7 +87,7 @@
      */
     public static function urlEncode( $input ) {
       if( is_array( $input ) )
-        return array_map( array( 'self', 'urlEncode' ), $input );
+        return array_map( [ 'self', 'urlEncode' ], $input );
       else if( is_scalar( $input ) )
         return str_replace( '+', ' ', str_replace( '%7E', '~', rawurlencode( $input ) ) );
       else
@@ -105,7 +105,7 @@
       // split into param array
       $pairs = explode( '&', $input );
       // split each param into key/value pairs
-      $params = array();
+      $params = [];
       foreach( $pairs as &$pair ) {
         if( strpos( $pair, '=' ) ) {
           $pair = explode( '=', $pair );
@@ -136,7 +136,7 @@
      */
     public static function parseHeader( $input ) {
       // normalize line endings
-      $input = str_replace( array( "\r\n", "\r" ), "\n", $input );
+      $input = str_replace( [ "\r\n", "\r" ], "\n", $input );
       // split into headers (for when multiple were sent (redirects))
       $input = preg_split( '/\n{2,}/', trim( $input ) );
       // convert each header into an associative array
@@ -146,12 +146,12 @@
         // get the protocol and status
         preg_match( '{^([a-z]*?)[/](.*?)\s([0-9]*?)\s([a-z]*?)}i', array_shift( $lines ), $matches );
         // flush $header
-        $header = array(
+        $header = [
           'protocol' => $matches[1],
           'protocol_version' => $matches[2],
           'status_code' => (int) $matches[3],
           'status' => $matches[4],
-        );
+        ];
         // build header array with key/value pairs
         foreach( $lines as &$line ) {
           $line = trim( $line );
@@ -188,7 +188,7 @@
         // sort parameters by name, using lexicographical byte value ordering
         uksort( $params, 'strcmp' );
         // walk through params to sort those having the same name
-        $pairs = array();
+        $pairs = [];
         foreach( $params as $key => &$value ) {
           if( is_array( $value ) ) {
             natsort( $value );
@@ -213,12 +213,12 @@
      * @param array &$new_url 
      * @return string
      */
-    public static function buildUrl( $url = NULL, $parts = array(), $flags = HTTP_URL_REPLACE, &$new_url = FALSE ) {
+    public static function buildUrl( $url = NULL, $parts = [], $flags = HTTP_URL_REPLACE, &$new_url = FALSE ) {
       // call http_build_url, if built in
       if( function_exists( 'http_build_url' ) )
         return http_build_url( $url, $parts, $flags, $new_url );
       // part keys
-      static $keys = array( 'user', 'pass', 'port', 'path', 'query', 'fragment' );
+      static $keys = [ 'user', 'pass', 'port', 'path', 'query', 'fragment' ];
       // implementing an undocumented feature:
       // when calling without any parameters,
       // it returns the full url of the page being accessed
