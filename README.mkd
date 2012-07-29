@@ -1,11 +1,6 @@
 PHP HTTP
 ========
 
-The [documentation] can be found in the [wiki].
-
-[documentation]: https://github.com/jhermsmeier/php-http/wiki/Documentation
-[wiki]: https://github.com/jhermsmeier/php-http/wiki
-
 ### Dependencies
 
 - PHP 5.4+ with cURL
@@ -16,7 +11,6 @@ The [documentation] can be found in the [wiki].
 <?php
   
   // available options (with their default values)
-  // for further documentation see <https://github.com/jhermsmeier/php-http/wiki>
   $options = array(
     'method'     => 'GET',
     'header'     => [],
