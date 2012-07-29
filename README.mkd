@@ -11,7 +11,7 @@ PHP HTTP
 <?php
   
   // available options (with their default values)
-  $options = array(
+  $options = [
     'method'     => 'GET',
     'header'     => [],
     'body'       => NULL,
@@ -20,7 +20,7 @@ PHP HTTP
     'useragent'  => 'php/x.x.x',
     'ssl_verify' => TRUE,
     'file'       => NULL
-  );
+  ];
   
   // make a request
   $response = lib\http::request( 'example.com', $options );
